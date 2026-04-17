@@ -49,7 +49,7 @@ const ESTADO_INICIAL = {
   observaciones: '',
 };
 
-export default function FormularioRegistro() {
+export default function FormularioRegistro({ isEmbedded = false }) {
   const [form, setForm] = useState(ESTADO_INICIAL);
   const [errores, setErrores] = useState({});
   const [cedulaStatus, setCedulaStatus] = useState(null); // null | 'ok' | 'error'
@@ -163,19 +163,21 @@ export default function FormularioRegistro() {
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4">
-      <div className="max-w-3xl mx-auto">
+    <div className={isEmbedded ? "max-w-4xl mx-auto" : "min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4"}>
+      <div className={isEmbedded ? "" : "max-w-3xl mx-auto"}>
 
-        {/* Encabezado */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4 shadow-lg shadow-blue-200">
-            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
+        {/* Encabezado - Solo se muestra si no está embebido */}
+        {!isEmbedded && (
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4 shadow-lg shadow-blue-200">
+              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">INFOGET</h1>
+            <p className="text-gray-500 text-sm">Sistema de Registro de Pacientes</p>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-1">INFOGET</h1>
-          <p className="text-gray-500 text-sm">Sistema de Registro de Pacientes</p>
-        </div>
+        )}
 
         {/* Banner de resultado */}
         {resultado && (
