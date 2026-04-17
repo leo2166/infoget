@@ -55,6 +55,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
   const [cedulaStatus, setCedulaStatus] = useState(null); // null | 'ok' | 'error'
   const [enviando, setEnviando] = useState(false);
   const [resultado, setResultado] = useState(null); // null | { tipo: 'exito' | 'error', mensaje }
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
   // Auto-calcular edad cuando cambia la fecha
   useEffect(() => {
@@ -421,11 +422,26 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
             {/* Botón Submit */}
             <div className="px-6 py-5">
+              {/* Casilla de consentimiento legal (Requisito para evitar bloqueos) */}
+              <div className="mb-4">
+                <label className="flex items-start gap-2 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={aceptaTerminos}
+                    onChange={(e) => setAceptaTerminos(e.target.checked)}
+                    className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+                  />
+                  <span className="text-xs text-gray-600 leading-tight group-hover:text-gray-900 transition-colors">
+                    Doy mi consentimiento voluntario para que INFOGET procese mis datos personales exclusivamente con fines de registro administrativo y atención médica.
+                  </span>
+                </label>
+              </div>
+
               <button
                 type="submit"
                 id="btn-registrar"
-                disabled={enviando}
-                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-md shadow-blue-200 hover:shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2"
+                disabled={enviando || !aceptaTerminos}
+                className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:shadow-none text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-md shadow-blue-200 hover:shadow-lg hover:shadow-blue-200 flex items-center justify-center gap-2"
               >
                 {enviando ? (
                   <>
@@ -450,6 +466,14 @@ export default function FormularioRegistro({ isEmbedded = false }) {
             </div>
           </div>
         </form>
+
+        {/* Disclaimer final para generar confianza en sistemas automáticos */}
+        <div className="mt-8 text-center bg-gray-50/50 rounded-xl p-4 border border-dashed border-gray-200">
+          <p className="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">Aviso de Privacidad</p>
+          <p className="text-xs text-gray-400 max-w-lg mx-auto leading-relaxed">
+            INFOGET es una plataforma privada de captura de datos voluntaria. No solicitamos contraseñas, datos bancarios ni información financiera. Sus datos están protegidos por protocolos de seguridad internos.
+          </p>
+        </div>
       </div>
     </div>
   );

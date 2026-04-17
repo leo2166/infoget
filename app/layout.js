@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "INFOGET — Sistema de Registro de Pacientes",
-  description: "Plataforma de registro y gestión de pacientes con panel administrativo seguro.",
+  title: 'INFOGET',
+  description: 'Sistema INFOGET',
 };
 
 export default function RootLayout({ children }) {
