@@ -114,3 +114,24 @@ export async function DELETE(request) {
     );
   }
 }
+
+/** POST /api/pacientes?action=deleteAll — Vaciar base de datos */
+export async function POST(request) {
+  const authError = await requireAuth();
+  if (authError) return authError;
+
+  try {
+    const { searchParams } = new URL(request.url);
+    const action = searchParams.get('action');
+
+    if (action === 'deleteAll') {
+      await prisma.paciente.deleteMany({});
+      return NextResponse.json({ message: 'Base de datos vaciada con éxito.' }, { status: 200 });
+    }
+
+    return NextResponse.json({ error: 'Acción no válida.' }, { status: 400 });
+  } catch (error) {
+    console.error('[API /pacientes POST] Error:', error);
+    return NextResponse.json({ error: 'Error al vaciar la base de datos.' }, { status: 500 });
+  }
+}

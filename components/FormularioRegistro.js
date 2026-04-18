@@ -57,14 +57,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
   const [resultado, setResultado] = useState(null); // null | { tipo: 'exito' | 'error', mensaje }
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
-  // Auto-calcular edad cuando cambia la fecha
-  useEffect(() => {
-    if (form.fechaNacimiento) {
-      const edad = calcularEdad(form.fechaNacimiento);
-      setForm(prev => ({ ...prev, edad }));
-    }
-  }, [form.fechaNacimiento]);
-
   const validarCedula = useCallback((valor) => {
     if (!valor) return 'La cédula es obligatoria.';
     if (!/^\d+$/.test(valor)) return 'Solo se permiten números.';
@@ -74,6 +66,16 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Formateo automático de fecha DD/MM/AAAA mientras escribe
+    if (name === 'fechaNacimiento') {
+      let v = value.replace(/\D/g, '').slice(0, 8);
+      if (v.length >= 5) v = `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
+      else if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`;
+      setForm(prev => ({ ...prev, [name]: v }));
+      return;
+    }
+
     setForm(prev => ({ ...prev, [name]: value }));
 
     // Validación en tiempo real solo para cédula
@@ -82,7 +84,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       setCedulaStatus(err ? 'error' : (value ? 'ok' : null));
       setErrores(prev => ({ ...prev, cedula: err }));
     } else {
-      // Limpiar error del campo al modificarlo
       if (errores[name]) {
         setErrores(prev => ({ ...prev, [name]: null }));
       }
@@ -99,14 +100,23 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       nuevosErrores.nombre = 'El nombre completo es obligatorio.';
     }
 
-    if (!form.fechaNacimiento) {
-      nuevosErrores.fechaNacimiento = 'La fecha de nacimiento es obligatoria.';
+    if (!form.fechaNacimiento || form.fechaNacimiento.length < 10) {
+      nuevosErrores.fechaNacimiento = 'Use el formato DD/MM/AAAA.';
+    }
+
+    if (!form.edad) {
+      nuevosErrores.edad = 'La edad es obligatoria.';
     }
 
     if (!form.telefono.trim()) {
       nuevosErrores.telefono = 'El teléfono es obligatorio.';
-    } else if (!/^\d{7,15}$/.test(form.telefono.replace(/\D/g, ''))) {
-      nuevosErrores.telefono = 'Teléfono inválido (7-15 dígitos).';
+    } else {
+      const telLimpio = form.telefono.replace(/\D/g, '');
+      // Validar códigos de Venezuela incluyendo 0422 solicitado
+      const regexTel = /^(0412|0414|0424|0416|0426|0422|02\d{2})\d{7}$/;
+      if (!regexTel.test(telLimpio)) {
+        nuevosErrores.telefono = 'Número no reconocido (ej: 04121234567).';
+      }
     }
 
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -114,11 +124,11 @@ export default function FormularioRegistro({ isEmbedded = false }) {
     }
 
     if (!form.especialidad) {
-      nuevosErrores.especialidad = 'Seleccione una especialidad.';
+      nuevosErrores.especialidad = 'Este campo es obligatorio.';
     }
 
     if (!form.cirugiaPendiente) {
-      nuevosErrores.cirugiaPendiente = 'Indique si hay cirugía pendiente.';
+      nuevosErrores.cirugiaPendiente = 'Este campo es obligatorio.';
     }
 
     setErrores(nuevosErrores);
@@ -176,7 +186,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-1">INFOGET</h1>
-            <p className="text-gray-500 text-sm">Sistema de Registro de Pacientes</p>
+            <p className="text-gray-500 text-sm">Sistema de Registro</p>
           </div>
         )}
 
@@ -262,29 +272,31 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                   <input
                     id="fechaNacimiento"
                     name="fechaNacimiento"
-                    type="date"
+                    type="text"
                     value={form.fechaNacimiento}
                     onChange={handleChange}
-                    max={new Date().toISOString().split('T')[0]}
+                    placeholder="DD/MM/AAAA"
                     className={inputClass('fechaNacimiento')}
                   />
                   {errores.fechaNacimiento && <p className="mt-1 text-xs text-red-600">{errores.fechaNacimiento}</p>}
                 </div>
 
-                {/* Edad (auto-calculada) */}
+                {/* Edad (Manual) */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Edad (años)
+                    Edad (años) <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="edad"
                     name="edad"
                     type="text"
+                    inputMode="numeric"
                     value={form.edad}
-                    readOnly
-                    placeholder="Se calcula automáticamente"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm bg-gray-50 text-gray-500 cursor-not-allowed"
+                    onChange={handleChange}
+                    placeholder="Ej: 65"
+                    className={inputClass('edad')}
                   />
+                  {errores.edad && <p className="mt-1 text-xs text-red-600">{errores.edad}</p>}
                 </div>
               </div>
             </div>

@@ -1,20 +1,30 @@
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, useCallback, Suspense } from 'react';
 import TablaAdmin from '@/components/TablaAdmin';
 import FormularioRegistro from '@/components/FormularioRegistro';
 import VistaImpresion from '@/components/VistaImpresion';
 
 export default function AdminPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <AdminContent />
+    </Suspense>
+  );
+}
+
+function AdminContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'gestion';
 
   const [pacientes, setPacientes] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('gestion'); // 'captura' | 'gestion' | 'impresion'
+  const [activeTab, setActiveTab] = useState(initialTab); // 'captura' | 'gestion' | 'impresion'
 
   // Redirigir si no está autenticado
   useEffect(() => {
