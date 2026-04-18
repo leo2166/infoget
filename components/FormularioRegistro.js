@@ -44,7 +44,7 @@ const ESTADO_INICIAL = {
   email: '',
   direccion: '',
   especialidad: '',
-  cirugiaPendiente: '',
+  cirugiaPendiente: 'Sí',
   diagnostico: '',
   observaciones: '',
 };
