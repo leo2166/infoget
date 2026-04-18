@@ -23,7 +23,12 @@ export default function VistaImpresion({ pacientes = [] }) {
         @media print {
           @page {
             size: letter landscape;
-            margin: 1cm;
+            margin: 1.5cm 1cm;
+            @bottom-center {
+              content: counter(page) "/" counter(pages);
+              font-size: 10px;
+              color: #666;
+            }
           }
           body * {
             visibility: hidden;
