@@ -65,27 +65,28 @@ export default function VistaImpresion({ pacientes = [] }) {
           <p className="text-xs text-gray-500 mt-1">Generado el: {new Date().toLocaleDateString()} a las {new Date().toLocaleTimeString()}</p>
         </div>
 
-        <table className="w-full text-left border-collapse min-w-[1000px]">
+        <table className="w-full text-left border-collapse min-w-[1000px] table-fixed">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cédula</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Nombre Completo</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Edad</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Teléfono</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Especialidad</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cirugía</th>
-              <th className="px-3 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Diagnóstico</th>
+              <th className="w-[10%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cédula</th>
+              <th className="w-[18%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Nombre</th>
+              <th className="w-[5%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border text-center">Edad</th>
+              <th className="w-[12%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Teléfono</th>
+              <th className="w-[12%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Especialidad</th>
+              <th className="w-[10%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cirugía</th>
+              <th className="w-[16%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Diagnóstico</th>
+              <th className="w-[17%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Observaciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {pacientesOrdenados.map((p) => (
-              <tr key={p.id} className="hover:bg-gray-50/50 print:hover:bg-transparent">
-                <td className="px-3 py-2.5 text-xs text-gray-900 font-medium border">{p.cedula}</td>
-                <td className="px-3 py-2.5 text-xs text-gray-700 border">{p.nombre}</td>
-                <td className="px-3 py-2.5 text-xs text-gray-700 border text-center">{p.edad}</td>
-                <td className="px-3 py-2.5 text-xs text-gray-700 border">{p.telefono}</td>
-                <td className="px-3 py-2.5 text-xs text-gray-700 border">{p.especialidad}</td>
-                <td className="px-3 py-2.5 text-xs text-gray-700 border">
+              <tr key={p.id} className="hover:bg-gray-50/50 print:hover:bg-transparent align-top">
+                <td className="px-2 py-2.5 text-xs text-gray-900 font-medium border break-words">{p.cedula}</td>
+                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.nombre}</td>
+                <td className="px-2 py-2.5 text-xs text-gray-700 border text-center">{p.edad}</td>
+                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.telefono}</td>
+                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.especialidad}</td>
+                <td className="px-2 py-2.5 text-xs text-gray-700 border">
                   <span className={
                     p.cirugiaPendiente === 'Sí' ? 'text-red-600 font-bold' : 
                     p.cirugiaPendiente === 'En evaluación' ? 'text-yellow-600 font-bold' : 
@@ -94,14 +95,17 @@ export default function VistaImpresion({ pacientes = [] }) {
                     {p.cirugiaPendiente}
                   </span>
                 </td>
-                <td className="px-3 py-2.5 text-xs text-gray-600 border italic max-w-xs truncate print:max-w-none print:whitespace-normal">
+                <td className="px-2 py-2.5 text-xs text-gray-600 border break-words whitespace-normal">
                   {p.diagnostico || '-'}
+                </td>
+                <td className="px-2 py-2.5 text-xs text-gray-600 border break-words whitespace-normal">
+                  {p.observaciones || '-'}
                 </td>
               </tr>
             ))}
             {pacientesOrdenados.length === 0 && (
               <tr>
-                <td colSpan="7" className="px-3 py-8 text-center text-gray-400 text-sm">
+                <td colSpan="8" className="px-3 py-8 text-center text-gray-400 text-sm">
                   No hay registros para mostrar.
                 </td>
               </tr>
