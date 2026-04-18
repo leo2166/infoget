@@ -224,7 +224,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                 {/* Cédula con indicador */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Cédula de Identidad <span className="text-red-500">*</span>
+                    1. Cédula de Identidad <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <input
@@ -250,7 +250,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                 {/* Nombre */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nombre Completo <span className="text-red-500">*</span>
+                    2. Nombre y Apellido <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="nombre"
@@ -258,7 +258,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     type="text"
                     value={form.nombre}
                     onChange={handleChange}
-                    placeholder="Apellidos y nombres"
+                    placeholder="ej: Pedro Pérez"
                     className={inputClass('nombre')}
                   />
                   {errores.nombre && <p className="mt-1 text-xs text-red-600">{errores.nombre}</p>}
@@ -267,7 +267,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                 {/* Fecha de nacimiento */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Fecha de Nacimiento <span className="text-red-500">*</span>
+                    3. Fecha de Nacimiento <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="fechaNacimiento"
@@ -284,7 +284,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                 {/* Edad (Manual) */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Edad (años) <span className="text-red-500">*</span>
+                    4. Edad (años) <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="edad"
@@ -309,7 +309,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Teléfono <span className="text-red-500">*</span>
+                    5. Teléfono <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="telefono"
@@ -325,7 +325,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Correo Electrónico
+                    6. Correo Electrónico
                   </label>
                   <input
                     id="email"
@@ -341,7 +341,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Dirección
+                    7. Dirección
                   </label>
                   <input
                     id="direccion"
@@ -364,7 +364,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Especialidad <span className="text-red-500">*</span>
+                    8. Especialidad <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="especialidad"
@@ -383,7 +383,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ¿Cirugía Pendiente? <span className="text-red-500">*</span>
+                    9. ¿Cirugía Pendiente? <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="cirugiaPendiente"
@@ -402,7 +402,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Diagnóstico
+                    10. Diagnóstico
                   </label>
                   <textarea
                     id="diagnostico"
@@ -417,7 +417,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Observaciones
+                    11. Observaciones
                   </label>
                   <textarea
                     id="observaciones"
