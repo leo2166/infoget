@@ -22,7 +22,7 @@ export default function VistaImpresion({ pacientes = [] }) {
       <style dangerouslySetInnerHTML={{ __html: `
         @media print {
           @page {
-            size: landscape;
+            size: letter landscape;
             margin: 1cm;
           }
           body * {
