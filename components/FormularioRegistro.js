@@ -44,6 +44,7 @@ const ESTADO_INICIAL = {
   email: '',
   direccion: '',
   especialidad: '',
+  especialidadOtra: '',
   cirugiaPendiente: 'Sí',
   diagnostico: '',
   observaciones: '',
@@ -125,6 +126,8 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     if (!form.especialidad) {
       nuevosErrores.especialidad = 'Este campo es obligatorio.';
+    } else if (form.especialidad === 'Otra' && (!form.especialidadOtra || !form.especialidadOtra.trim())) {
+      nuevosErrores.especialidadOtra = 'Por favor, especifique la especialidad.';
     }
 
     if (!form.cirugiaPendiente) {
@@ -143,10 +146,15 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     setEnviando(true);
     try {
+      const payload = {
+        ...form,
+        especialidad: form.especialidad === 'Otra' ? form.especialidadOtra : form.especialidad
+      };
+
       const res = await fetch('/api/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -186,7 +194,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-1">INFOGET</h1>
-            <p className="text-gray-500 text-sm">Sistema de Registro</p>
+            <p className="text-gray-500 text-sm">Plataforma de registro de datos multiuso.</p>
           </div>
         )}
 
@@ -381,6 +389,24 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                   {errores.especialidad && <p className="mt-1 text-xs text-red-600">{errores.especialidad}</p>}
                 </div>
 
+                {form.especialidad === 'Otra' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Especifique la Especialidad <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="especialidadOtra"
+                      name="especialidadOtra"
+                      type="text"
+                      value={form.especialidadOtra}
+                      onChange={handleChange}
+                      placeholder="Ej: Reumatología"
+                      className={inputClass('especialidadOtra')}
+                    />
+                    {errores.especialidadOtra && <p className="mt-1 text-xs text-red-600">{errores.especialidadOtra}</p>}
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     9. ¿Cirugía Pendiente? <span className="text-red-500">*</span>
@@ -485,7 +511,18 @@ export default function FormularioRegistro({ isEmbedded = false }) {
           <p className="text-xs text-gray-400 max-w-lg mx-auto leading-relaxed">
             INFOGET es una plataforma privada de captura de datos voluntaria. No solicitamos contraseñas, datos bancarios ni información financiera. Sus datos están protegidos por protocolos de seguridad internos.
           </p>
-        </div>
+          <div className="mt-5 pt-4 border-t border-gray-200/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+            <div className="text-center sm:text-left">
+              <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-0.5">Acerca del Sistema</p>
+              <p className="text-[10px] text-gray-400">
+                INFOGET v1.0. Plataforma de registro de datos multiuso.
+              </p>
+            </div>
+            <div className="text-center sm:text-right">
+              <p className="text-[9px] text-gray-400 uppercase tracking-widest mb-0.5">Diseño y Desarrollo</p>
+              <p className="text-[11px] font-medium text-gray-600">Ing. Lucidio Fuenmayor</p>
+            </div>
+          </div>        </div>
       </div>
     </div>
   );

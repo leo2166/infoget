@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback, Suspense } from 'react';
 import TablaAdmin from '@/components/TablaAdmin';
 import FormularioRegistro from '@/components/FormularioRegistro';
 import VistaImpresion from '@/components/VistaImpresion';
+import RespaldoAdmin from '@/components/RespaldoAdmin';
 
 export default function AdminPage() {
   return (
@@ -121,6 +122,9 @@ function AdminContent() {
             { id: 'impresion', label: 'Impresión', icon: (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
             )},
+            { id: 'respaldo', label: 'Respaldo', icon: (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            )},
           ].map(tab => (
             <button
               key={tab.id}
@@ -220,6 +224,12 @@ function AdminContent() {
         {activeTab === 'impresion' && (
           <div className="animate-fadeIn">
             <VistaImpresion pacientes={pacientes} />
+          </div>
+        )}
+
+        {activeTab === 'respaldo' && (
+          <div className="animate-fadeIn">
+            <RespaldoAdmin />
           </div>
         )}
       </main>

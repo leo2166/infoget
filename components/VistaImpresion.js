@@ -23,12 +23,7 @@ export default function VistaImpresion({ pacientes = [] }) {
         @media print {
           @page {
             size: letter landscape;
-            margin: 1.5cm 1cm;
-            @bottom-center {
-              content: counter(page) "/" counter(pages);
-              font-size: 10px;
-              color: #666;
-            }
+            margin: 0; /* Al colocar en 0, el navegador oculta sus encabezados automáticos */
           }
           body * {
             visibility: hidden;
@@ -41,6 +36,8 @@ export default function VistaImpresion({ pacientes = [] }) {
             left: 0;
             top: 0;
             width: 100%;
+            padding: 1cm 0.5cm; /* Colocamos el margen aquí adentro */
+            box-sizing: border-box;
           }
           .no-print {
             display: none !important;
@@ -66,11 +63,12 @@ export default function VistaImpresion({ pacientes = [] }) {
 
       <div id="seccion-impresion" className="overflow-x-auto">
         <div className="mb-4 hidden print:block text-center border-b pb-4">
-          <h1 className="text-xl font-bold text-gray-900 leading-none">INFOGET - REPORTE GENERAL DE PACIENTES</h1>
+          <h1 className="text-xl font-bold text-gray-900 leading-tight uppercase">ASOCIACIÓN DE JUBILADOS Y PENSIONADOS CANTV ZULIA</h1>
+          <h2 className="text-sm font-semibold text-gray-700 mt-1 uppercase">Listado de beneficiarios con cirugías varias pendientes</h2>
           <p className="text-xs text-gray-500 mt-1">Generado el: {new Date().toLocaleDateString()} a las {new Date().toLocaleTimeString()}</p>
         </div>
 
-        <table className="w-full text-left border-collapse min-w-[1000px] table-fixed">
+        <table className="w-full text-left border-collapse min-w-[1000px] print:min-w-0 table-fixed">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
               <th className="w-[10%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cédula</th>
