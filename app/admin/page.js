@@ -100,7 +100,7 @@ function AdminContent() {
             <button
               id="btn-cerrar-sesion"
               onClick={() => signOut({ callbackUrl: '/admin/login' })}
-              className="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors"
+              className="px-3 py-1.5 text-sm bg-yellow-400 hover:bg-yellow-500 text-black rounded-lg font-bold transition-colors shadow-sm"
             >
               Cerrar sesión
             </button>
