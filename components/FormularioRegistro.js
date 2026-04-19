@@ -109,6 +109,8 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       nuevosErrores.edad = 'La edad es obligatoria.';
     }
 
+    // --- TEMPORAL BETA TEST: Solo validamos 1, 2, 3 y 4 ---
+    /*
     if (!form.telefono.trim()) {
       nuevosErrores.telefono = 'El teléfono es obligatorio.';
     } else {
@@ -133,6 +135,8 @@ export default function FormularioRegistro({ isEmbedded = false }) {
     if (!form.cirugiaPendiente) {
       nuevosErrores.cirugiaPendiente = 'Este campo es obligatorio.';
     }
+    */
+    // --------------------------------------------------------
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -146,9 +150,12 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     setEnviando(true);
     try {
+      // --- TEMPORAL BETA TEST: Enviar valores dummy para pasar backend validation ---
       const payload = {
         ...form,
-        especialidad: form.especialidad === 'Otra' ? form.especialidadOtra : form.especialidad
+        telefono: form.telefono || '0000000',
+        especialidad: form.especialidad ? (form.especialidad === 'Otra' ? form.especialidadOtra : form.especialidad) : 'BETA_TEST',
+        cirugiaPendiente: form.cirugiaPendiente || 'No'
       };
 
       const res = await fetch('/api/registro', {
@@ -174,12 +181,19 @@ export default function FormularioRegistro({ isEmbedded = false }) {
     }
   };
 
-  const inputClass = (campo) =>
-    `w-full px-4 py-2.5 rounded-lg border text-sm transition-colors focus:outline-none focus:ring-2 placeholder-gray-400 text-gray-900 ${
+  // --- TEMPORAL BETA TEST: Activar solo 1, 2, 3, 4 ---
+  const camposActivosBeta = ['cedula', 'nombre', 'fechaNacimiento', 'edad'];
+
+  const inputClass = (campo) => {
+    const esActivo = camposActivosBeta.includes(campo);
+    return `w-full px-4 py-2.5 rounded-lg border text-sm transition-colors focus:outline-none focus:ring-2 placeholder-gray-400 text-gray-900 ${
       errores[campo]
         ? 'border-red-400 focus:ring-red-200 bg-red-50'
-        : 'border-gray-300 focus:ring-blue-200 focus:border-blue-500 bg-white'
+        : esActivo
+          ? 'border-green-300 focus:ring-green-200 focus:border-green-500 bg-green-50'
+          : 'border-gray-300 bg-gray-100 opacity-60 cursor-not-allowed'
     }`;
+  };
 
   return (
     <div className={isEmbedded ? "max-w-4xl mx-auto" : "min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4"}>
@@ -327,6 +341,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Ej: 04121234567"
                     className={inputClass('telefono')}
+                    disabled
                   />
                   {errores.telefono && <p className="mt-1 text-xs text-red-600">{errores.telefono}</p>}
                 </div>
@@ -343,6 +358,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="correo@ejemplo.com"
                     className={inputClass('email')}
+                    disabled
                   />
                   {errores.email && <p className="mt-1 text-xs text-red-600">{errores.email}</p>}
                 </div>
@@ -359,6 +375,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Dirección de habitación"
                     className={inputClass('direccion')}
+                    disabled
                   />
                 </div>
               </div>
@@ -380,6 +397,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     value={form.especialidad}
                     onChange={handleChange}
                     className={inputClass('especialidad')}
+                    disabled
                   >
                     <option value="">Seleccione...</option>
                     {ESPECIALIDADES.map(e => (
@@ -417,6 +435,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     value={form.cirugiaPendiente}
                     onChange={handleChange}
                     className={inputClass('cirugiaPendiente')}
+                    disabled
                   >
                     <option value="">Seleccione...</option>
                     <option value="Sí">Sí</option>
@@ -438,6 +457,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Diagnóstico médico (opcional)"
                     className={`${inputClass('diagnostico')} resize-none`}
+                    disabled
                   />
                 </div>
 
@@ -453,6 +473,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Observaciones adicionales (opcional)"
                     className={`${inputClass('observaciones')} resize-none`}
+                    disabled
                   />
                 </div>
               </div>
