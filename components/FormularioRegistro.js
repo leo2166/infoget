@@ -109,13 +109,11 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       nuevosErrores.edad = 'La edad es obligatoria.';
     }
 
-    // --- TEMPORAL BETA TEST: Solo validamos 1, 2, 3 y 4 ---
-    /*
     if (!form.telefono.trim()) {
       nuevosErrores.telefono = 'El teléfono es obligatorio.';
     } else {
       const telLimpio = form.telefono.replace(/\D/g, '');
-      // Validar códigos de Venezuela incluyendo 0422 solicitado
+      // Validar códigos de Venezuela incluyendo 0422
       const regexTel = /^(0412|0414|0424|0416|0426|0422|02\d{2})\d{7}$/;
       if (!regexTel.test(telLimpio)) {
         nuevosErrores.telefono = 'Número no reconocido (ej: 04121234567).';
@@ -135,8 +133,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
     if (!form.cirugiaPendiente) {
       nuevosErrores.cirugiaPendiente = 'Este campo es obligatorio.';
     }
-    */
-    // --------------------------------------------------------
 
     setErrores(nuevosErrores);
     return Object.keys(nuevosErrores).length === 0;
@@ -150,12 +146,9 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     setEnviando(true);
     try {
-      // --- TEMPORAL BETA TEST: Enviar valores dummy para pasar backend validation ---
       const payload = {
         ...form,
-        telefono: form.telefono || '0000000',
-        especialidad: form.especialidad ? (form.especialidad === 'Otra' ? form.especialidadOtra : form.especialidad) : 'BETA_TEST',
-        cirugiaPendiente: form.cirugiaPendiente || 'No'
+        especialidad: form.especialidad === 'Otra' ? form.especialidadOtra : form.especialidad,
       };
 
       const res = await fetch('/api/registro', {
@@ -171,6 +164,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
         setForm(ESTADO_INICIAL);
         setCedulaStatus(null);
         setErrores({});
+        setAceptaTerminos(false);
       } else {
         setResultado({ tipo: 'error', mensaje: data.error || 'Error al guardar. Intente nuevamente.' });
       }
@@ -181,23 +175,51 @@ export default function FormularioRegistro({ isEmbedded = false }) {
     }
   };
 
-  // --- TEMPORAL BETA TEST: Activar solo 1, 2, 3, 4 ---
-  const camposActivosBeta = ['cedula', 'nombre', 'fechaNacimiento', 'edad'];
-
   const inputClass = (campo) => {
-    const esActivo = camposActivosBeta.includes(campo);
     return `w-full px-4 py-2.5 rounded-lg border text-sm transition-colors focus:outline-none focus:ring-2 placeholder-gray-400 text-gray-900 ${
       errores[campo]
         ? 'border-red-400 focus:ring-red-200 bg-red-50'
-        : esActivo
-          ? 'border-green-300 focus:ring-green-200 focus:border-green-500 bg-green-50'
-          : 'border-gray-300 bg-gray-100 opacity-60 cursor-not-allowed'
+        : 'border-green-300 focus:ring-green-200 focus:border-green-500 bg-green-50'
     }`;
   };
 
   return (
     <div className={isEmbedded ? "max-w-4xl mx-auto" : "min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4"}>
       <div className={isEmbedded ? "" : "max-w-3xl mx-auto"}>
+
+        {/* Banner de Éxito Beta */}
+        <div className="mb-8 overflow-hidden rounded-2xl border-2 border-orange-500 shadow-xl transform hover:scale-[1.01] transition-transform duration-300">
+          <div className="bg-yellow-400 p-1 flex justify-between px-4">
+            <span className="text-[10px] font-black text-black uppercase tracking-widest">Aviso Oficial</span>
+            <div className="flex gap-1">
+              <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+              <div className="w-2 h-2 rounded-full bg-black"></div>
+            </div>
+          </div>
+          <div className="bg-white p-6 flex flex-col sm:flex-row items-center gap-5">
+            <div className="bg-blue-600 p-4 rounded-xl shadow-lg shadow-blue-200 shrink-0">
+              <svg className="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-blue-800 leading-tight mb-2">
+                ¡Las pruebas beta fueron exitosas!
+              </h3>
+              <p className="text-gray-900 font-medium text-sm leading-relaxed">
+                Gracias por accesar a esta web App. La misma estará <span className="text-orange-600 font-bold italic">activa en la siguiente campaña</span>, donde sean necesarios tus datos.
+              </p>
+            </div>
+          </div>
+          <div className="bg-black py-1.5 px-6">
+            <div className="flex justify-center gap-8">
+              <div className="h-1 w-12 bg-yellow-400 rounded-full"></div>
+              <div className="h-1 w-12 bg-blue-600 rounded-full"></div>
+              <div className="h-1 w-12 bg-orange-500 rounded-full"></div>
+            </div>
+          </div>
+        </div>
 
         {/* Encabezado - Solo se muestra si no está embebido */}
         {!isEmbedded && (
@@ -341,7 +363,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Ej: 04121234567"
                     className={inputClass('telefono')}
-                    disabled
                   />
                   {errores.telefono && <p className="mt-1 text-xs text-red-600">{errores.telefono}</p>}
                 </div>
@@ -358,7 +379,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="correo@ejemplo.com"
                     className={inputClass('email')}
-                    disabled
                   />
                   {errores.email && <p className="mt-1 text-xs text-red-600">{errores.email}</p>}
                 </div>
@@ -375,7 +395,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Dirección de habitación"
                     className={inputClass('direccion')}
-                    disabled
                   />
                 </div>
               </div>
@@ -397,7 +416,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     value={form.especialidad}
                     onChange={handleChange}
                     className={inputClass('especialidad')}
-                    disabled
                   >
                     <option value="">Seleccione...</option>
                     {ESPECIALIDADES.map(e => (
@@ -435,7 +453,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     value={form.cirugiaPendiente}
                     onChange={handleChange}
                     className={inputClass('cirugiaPendiente')}
-                    disabled
                   >
                     <option value="">Seleccione...</option>
                     <option value="Sí">Sí</option>
@@ -457,7 +474,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Diagnóstico médico (opcional)"
                     className={`${inputClass('diagnostico')} resize-none`}
-                    disabled
                   />
                 </div>
 
@@ -473,7 +489,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     onChange={handleChange}
                     placeholder="Observaciones adicionales (opcional)"
                     className={`${inputClass('observaciones')} resize-none`}
-                    disabled
                   />
                 </div>
               </div>
