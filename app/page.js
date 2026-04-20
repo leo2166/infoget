@@ -1,47 +1,50 @@
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
-      <div className="max-w-3xl w-full bg-black border-4 border-green-500 rounded-none p-12 shadow-[0_0_40px_rgba(34,197,94,0.3)] text-center space-y-10 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 sm:p-12">
+      <div className="max-w-2xl w-full bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden border border-gray-100">
+        
+        {/* Franja Superior de Éxito */}
+        <div className="bg-green-600 h-3 w-full"></div>
 
-        {/* Decoración de líneas tecnológicas */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-green-500"></div>
-        <div className="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
-        <div className="absolute top-0 right-0 w-1 h-full bg-green-500"></div>
-
-        <div className="relative z-10">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-white border-4 border-green-500 rounded-full mb-8 shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-            <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7" />
+        <div className="p-8 sm:p-12 text-center">
+          {/* Icono de Éxito Circular */}
+          <div className="mx-auto w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-8 border-2 border-green-100">
+            <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
             </svg>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter uppercase mb-6">
-            PRUEBAS <span className="text-green-500">BETA</span> EXITOSAS
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            Pruebas Beta Exitosas
           </h1>
 
-          <div className="w-24 h-2 bg-green-500 mx-auto mb-10"></div>
+          <div className="h-1 w-16 bg-green-500 mx-auto mb-8 rounded-full"></div>
 
           <div className="space-y-6">
-            <p className="text-2xl md:text-3xl text-white font-light leading-snug">
-              Gracias por accesar a esta web App, la misma estará 
-              <span className="block text-green-500 font-black text-3xl md:text-4xl mt-4 border-2 border-green-500 py-3 px-6 uppercase tracking-widest">
-                ACTIVA EN LA SIGUIENTE CAMPAÑA
-              </span>
+            <p className="text-xl sm:text-2xl text-gray-600 font-medium leading-relaxed">
+              Gracias por accesar a esta web App, la misma estará <span className="text-green-700 font-bold">activa en la siguiente campaña</span>, donde sean necesarios tus datos.
             </p>
+          </div>
 
-            <p className="text-xl text-gray-400 font-medium">
-              Donde sean necesarios tus datos.
+          {/* Botón Decorativo / Info */}
+          <div className="mt-12 pt-8 border-t border-gray-100">
+            <p className="text-sm font-bold text-green-600 uppercase tracking-widest">
+              INFOGET v1.0
             </p>
           </div>
         </div>
 
-        {/* Footer minimalista */}
-        <div className="pt-8 flex justify-center gap-4">
-          <div className="w-3 h-3 bg-green-500"></div>
-          <div className="w-3 h-3 bg-white"></div>
-          <div className="w-3 h-3 bg-green-500"></div>
+        {/* Decoración Inferior */}
+        <div className="bg-black py-4 flex justify-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>
+          <div className="w-2 h-2 rounded-full bg-white opacity-20"></div>
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>
         </div>
       </div>
+      
+      {/* Mensaje de pie de página fuera de la tarjeta */}
+      <p className="mt-8 text-gray-400 text-sm font-medium">
+        © {new Date().getFullYear()} Plataforma de Registro Multi-uso
+      </p>
     </div>  );
 }
