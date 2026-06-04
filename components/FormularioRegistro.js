@@ -120,8 +120,14 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       }
     }
 
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (!form.email || !form.email.trim()) {
+      nuevosErrores.email = 'El correo electrónico es obligatorio.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       nuevosErrores.email = 'Correo electrónico inválido.';
+    }
+
+    if (!form.direccion || !form.direccion.trim()) {
+      nuevosErrores.direccion = 'La dirección es obligatoria.';
     }
 
     if (!form.especialidad) {
@@ -132,6 +138,14 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     if (!form.cirugiaPendiente) {
       nuevosErrores.cirugiaPendiente = 'Este campo es obligatorio.';
+    }
+
+    if (!form.diagnostico || !form.diagnostico.trim()) {
+      nuevosErrores.diagnostico = 'El diagnóstico es obligatorio.';
+    }
+
+    if (!form.observaciones || !form.observaciones.trim()) {
+      nuevosErrores.observaciones = 'Las observaciones son obligatorias.';
     }
 
     setErrores(nuevosErrores);
@@ -186,53 +200,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
   return (
     <div className={isEmbedded ? "max-w-4xl mx-auto" : "min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4"}>
       <div className={isEmbedded ? "" : "max-w-3xl mx-auto"}>
-
-        {/* Banner de Éxito Beta */}
-        <div className="mb-8 overflow-hidden rounded-2xl border-2 border-orange-500 shadow-xl transform hover:scale-[1.01] transition-transform duration-300">
-          <div className="bg-yellow-400 p-1 flex justify-between px-4">
-            <span className="text-[10px] font-black text-black uppercase tracking-widest">Aviso Oficial</span>
-            <div className="flex gap-1">
-              <div className="w-2 h-2 rounded-full bg-blue-600"></div>
-              <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-              <div className="w-2 h-2 rounded-full bg-black"></div>
-            </div>
-          </div>
-          <div className="bg-white p-6 flex flex-col sm:flex-row items-center gap-5">
-            <div className="bg-blue-600 p-4 rounded-xl shadow-lg shadow-blue-200 shrink-0">
-              <svg className="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-xl font-black text-blue-800 leading-tight mb-2">
-                ¡Las pruebas beta fueron exitosas!
-              </h3>
-              <p className="text-gray-900 font-medium text-sm leading-relaxed">
-                Gracias por accesar a esta web App. La misma estará <span className="text-orange-600 font-bold italic">activa en la siguiente campaña</span>, donde sean necesarios tus datos.
-              </p>
-            </div>
-          </div>
-          <div className="bg-black py-1.5 px-6">
-            <div className="flex justify-center gap-8">
-              <div className="h-1 w-12 bg-yellow-400 rounded-full"></div>
-              <div className="h-1 w-12 bg-blue-600 rounded-full"></div>
-              <div className="h-1 w-12 bg-orange-500 rounded-full"></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Encabezado - Solo se muestra si no está embebido */}
-        {!isEmbedded && (
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 mb-4 shadow-lg shadow-blue-200">
-              <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-1">INFOGET</h1>
-            <p className="text-gray-500 text-sm">Plataforma de registro de datos multiuso.</p>
-          </div>
-        )}
 
         {/* Banner de resultado */}
         {resultado && (
@@ -369,7 +336,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    6. Correo Electrónico
+                    6. Correo Electrónico <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="email"
@@ -385,7 +352,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    7. Dirección
+                    7. Dirección <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="direccion"
@@ -396,6 +363,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     placeholder="Dirección de habitación"
                     className={inputClass('direccion')}
                   />
+                  {errores.direccion && <p className="mt-1 text-xs text-red-600">{errores.direccion}</p>}
                 </div>
               </div>
             </div>
@@ -464,7 +432,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    10. Diagnóstico
+                    10. Diagnóstico <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="diagnostico"
@@ -472,14 +440,15 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     rows={2}
                     value={form.diagnostico}
                     onChange={handleChange}
-                    placeholder="Diagnóstico médico (opcional)"
+                    placeholder="Diagnóstico médico"
                     className={`${inputClass('diagnostico')} resize-none`}
                   />
+                  {errores.diagnostico && <p className="mt-1 text-xs text-red-600">{errores.diagnostico}</p>}
                 </div>
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    11. Observaciones
+                    11. Observaciones <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="observaciones"
@@ -487,9 +456,10 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     rows={3}
                     value={form.observaciones}
                     onChange={handleChange}
-                    placeholder="Observaciones adicionales (opcional)"
+                    placeholder="Observaciones adicionales"
                     className={`${inputClass('observaciones')} resize-none`}
                   />
+                  {errores.observaciones && <p className="mt-1 text-xs text-red-600">{errores.observaciones}</p>}
                 </div>
               </div>
             </div>
