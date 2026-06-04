@@ -40,6 +40,7 @@ const ESTADO_INICIAL = {
   nombre: '',
   fechaNacimiento: '',
   edad: '',
+  carnetCantv: '',
   telefono: '',
   email: '',
   direccion: '',
@@ -102,7 +103,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
   };
 
   const validarForm = () => {
-// ... (resto de la función validarForm permanece igual)
     const nuevosErrores = {};
 
     const errCedula = validarCedula(form.cedula);
@@ -124,21 +124,14 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       nuevosErrores.telefono = 'El teléfono es obligatorio.';
     } else {
       const telLimpio = form.telefono.replace(/\D/g, '');
-      // Validar códigos de Venezuela incluyendo 0422
       const regexTel = /^(0412|0414|0424|0416|0426|0422|02\d{2})\d{7}$/;
       if (!regexTel.test(telLimpio)) {
         nuevosErrores.telefono = 'Número no reconocido (ej: 04121234567).';
       }
     }
 
-    if (!form.email || !form.email.trim()) {
-      nuevosErrores.email = 'El correo electrónico es obligatorio.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       nuevosErrores.email = 'Correo electrónico inválido.';
-    }
-
-    if (!form.direccion || !form.direccion.trim()) {
-      nuevosErrores.direccion = 'La dirección es obligatoria.';
     }
 
     if (!form.especialidad) {
@@ -149,14 +142,6 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
     if (!form.cirugiaPendiente) {
       nuevosErrores.cirugiaPendiente = 'Este campo es obligatorio.';
-    }
-
-    if (!form.diagnostico || !form.diagnostico.trim()) {
-      nuevosErrores.diagnostico = 'El diagnóstico es obligatorio.';
-    }
-
-    if (!form.observaciones || !form.observaciones.trim()) {
-      nuevosErrores.observaciones = 'Las observaciones son obligatorias.';
     }
 
     setErrores(nuevosErrores);
@@ -344,7 +329,23 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    5. Teléfono <span className="text-red-500">*</span>
+                    5. Número Carnet Cantv
+                  </label>
+                  <input
+                    id="carnetCantv"
+                    name="carnetCantv"
+                    type="text"
+                    value={form.carnetCantv}
+                    onChange={handleChange}
+                    placeholder="Ej: 123456"
+                    className={inputClass('carnetCantv')}
+                  />
+                  {errores.carnetCantv && <p className="mt-1 text-xs text-red-600">{errores.carnetCantv}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    6. Teléfono <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="telefono"
@@ -360,7 +361,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    6. Correo Electrónico <span className="text-red-500">*</span>
+                    7. Correo Electrónico
                   </label>
                   <input
                     id="email"
@@ -376,7 +377,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    7. Dirección <span className="text-red-500">*</span>
+                    8. Dirección
                   </label>
                   <input
                     id="direccion"
@@ -400,7 +401,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    8. Especialidad <span className="text-red-500">*</span>
+                    9. Especialidad <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="especialidad"
@@ -437,7 +438,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    9. ¿Cirugía Pendiente? <span className="text-red-500">*</span>
+                    10. ¿Cirugía Pendiente? <span className="text-red-500">*</span>
                   </label>
                   <select
                     id="cirugiaPendiente"
@@ -456,7 +457,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    10. Diagnóstico <span className="text-red-500">*</span>
+                    11. Diagnóstico
                   </label>
                   <textarea
                     id="diagnostico"
@@ -472,7 +473,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    11. Observaciones <span className="text-red-500">*</span>
+                    12. Observaciones
                   </label>
                   <textarea
                     id="observaciones"
