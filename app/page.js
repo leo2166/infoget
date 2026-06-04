@@ -1,4 +1,9 @@
+import { redirect } from 'next/navigation';
+
 export default function Home() {
+  redirect('/registro');
+
+  /* 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 sm:p-12">
       <div className="max-w-2xl w-full bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden border border-gray-100">
@@ -46,5 +51,7 @@ export default function Home() {
       <p className="mt-8 text-gray-400 text-sm font-medium">
         © {new Date().getFullYear()} Plataforma de Registro Multi-uso
       </p>
-    </div>  );
+    </div>
+  );
+  */
 }
