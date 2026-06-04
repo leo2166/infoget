@@ -6,7 +6,7 @@ export async function POST(request) {
     const body = await request.json();
 
     // Validación server-side
-    const { cedula, nombre, fechaNacimiento, edad, telefono, email, direccion, especialidad, cirugiaPendiente, diagnostico, observaciones } = body;
+    const { cedula, nombre, fechaNacimiento, edad, carnetCantv, telefono, email, direccion, especialidad, cirugiaPendiente, diagnostico, observaciones } = body;
 
     if (!cedula || !/^\d{6,12}$/.test(cedula)) {
       return NextResponse.json(
@@ -69,6 +69,7 @@ export async function POST(request) {
         nombre: nombre.trim(),
         fechaNacimiento,
         edad: edad?.toString() || '',
+        carnetCantv: carnetCantv?.trim() || '',
         telefono: telefono.trim(),
         email: email?.trim() || '',
         direccion: direccion?.trim() || '',
