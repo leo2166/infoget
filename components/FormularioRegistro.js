@@ -318,15 +318,8 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                   />
                   {errores.edad && <p className="mt-1 text-xs text-red-600">{errores.edad}</p>}
                 </div>
-              </div>
-            </div>
 
-            {/* Sección: Contacto */}
-            <div className="px-6 py-5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-blue-700 uppercase tracking-wider mb-4">
-                Datos de Contacto
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Número Carnet Cantv */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     5. Número Carnet Cantv
@@ -342,7 +335,15 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                   />
                   {errores.carnetCantv && <p className="mt-1 text-xs text-red-600">{errores.carnetCantv}</p>}
                 </div>
+              </div>
+            </div>
 
+            {/* Sección: Contacto */}
+            <div className="px-6 py-5 border-b border-gray-100">
+              <h2 className="text-sm font-semibold text-blue-700 uppercase tracking-wider mb-4">
+                Datos de Contacto
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     6. Teléfono <span className="text-red-500">*</span>
