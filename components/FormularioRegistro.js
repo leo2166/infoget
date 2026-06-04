@@ -73,7 +73,17 @@ export default function FormularioRegistro({ isEmbedded = false }) {
       let v = value.replace(/\D/g, '').slice(0, 8);
       if (v.length >= 5) v = `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
       else if (v.length >= 3) v = `${v.slice(0, 2)}/${v.slice(2)}`;
-      setForm(prev => ({ ...prev, [name]: v }));
+      
+      setForm(prev => {
+        // Calcular edad automáticamente si la fecha está completa (10 caracteres: DD/MM/AAAA)
+        let edadCalculada = '';
+        if (v.length === 10) {
+          const [dia, mes, año] = v.split('/');
+          const fechaISO = `${año}-${mes}-${dia}`;
+          edadCalculada = calcularEdad(fechaISO);
+        }
+        return { ...prev, [name]: v, edad: edadCalculada };
+      });
       return;
     }
 
@@ -92,6 +102,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
   };
 
   const validarForm = () => {
+// ... (resto de la función validarForm permanece igual)
     const nuevosErrores = {};
 
     const errCedula = validarCedula(form.cedula);
@@ -221,6 +232,18 @@ export default function FormularioRegistro({ isEmbedded = false }) {
           </div>
         )}
 
+        {/* Encabezado de la Aplicación */}
+        <div className="mb-8">
+          <div className="flex justify-start mb-4">
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+              INFOGET sistema censos médicos
+            </span>
+          </div>
+          <h1 className="text-3xl font-black text-center text-blue-900 uppercase tracking-tight mb-6">
+            Censo Médico
+          </h1>
+        </div>
+
         {/* Formulario */}
         <form onSubmit={handleSubmit} noValidate>
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -292,7 +315,7 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                   {errores.fechaNacimiento && <p className="mt-1 text-xs text-red-600">{errores.fechaNacimiento}</p>}
                 </div>
 
-                {/* Edad (Manual) */}
+                {/* Edad (Automática) */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     4. Edad (años) <span className="text-red-500">*</span>
@@ -304,8 +327,9 @@ export default function FormularioRegistro({ isEmbedded = false }) {
                     inputMode="numeric"
                     value={form.edad}
                     onChange={handleChange}
-                    placeholder="Ej: 65"
-                    className={inputClass('edad')}
+                    placeholder="Cálculo automático"
+                    readOnly
+                    className={`${inputClass('edad')} bg-gray-100 cursor-not-allowed`}
                   />
                   {errores.edad && <p className="mt-1 text-xs text-red-600">{errores.edad}</p>}
                 </div>
