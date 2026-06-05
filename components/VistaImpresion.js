@@ -23,7 +23,7 @@ export default function VistaImpresion({ pacientes = [] }) {
         @media print {
           @page {
             size: letter landscape;
-            margin: 0; /* Al colocar en 0, el navegador oculta sus encabezados automáticos */
+            margin: 0;
           }
           body * {
             visibility: hidden;
@@ -36,8 +36,9 @@ export default function VistaImpresion({ pacientes = [] }) {
             left: 0;
             top: 0;
             width: 100%;
-            padding: 1cm 0.5cm; /* Colocamos el margen aquí adentro */
+            padding: 0.5cm 0.3cm;
             box-sizing: border-box;
+            font-family: Arial, sans-serif;
           }
           .no-print {
             display: none !important;
@@ -48,7 +49,7 @@ export default function VistaImpresion({ pacientes = [] }) {
       <div className="flex items-center justify-between mb-6 no-print">
         <div>
           <h2 className="text-base font-bold text-gray-800">Vista Previa de Impresión</h2>
-          <p className="text-sm text-gray-500">Datos ordenados por Cédula (Sentido Horizontal)</p>
+          <p className="text-sm text-gray-500">Datos ordenados por Cédula (Formato Carta Horizontal)</p>
         </div>
         <button
           onClick={handlePrint}
@@ -63,33 +64,35 @@ export default function VistaImpresion({ pacientes = [] }) {
 
       <div id="seccion-impresion" className="overflow-x-auto">
         <div className="mb-4 hidden print:block text-center border-b pb-4">
-          <h1 className="text-xl font-bold text-gray-900 leading-tight uppercase">ASOCIACIÓN DE JUBILADOS Y PENSIONADOS CANTV ZULIA</h1>
-          <h2 className="text-sm font-semibold text-gray-700 mt-1 uppercase">Listado de beneficiarios con cirugías varias pendientes</h2>
-          <p className="text-xs text-gray-500 mt-1">Generado el: {new Date().toLocaleDateString()} a las {new Date().toLocaleTimeString()}</p>
+          <h1 className="text-lg font-bold text-gray-900 leading-tight uppercase">Asociación de jubilados y Pensionados cantv del estado Zulia</h1>
+          <h2 className="text-sm font-semibold text-gray-700 mt-1 uppercase">listado de beneficiarios pendientes por cirugias varias</h2>
+          <p className="text-[10px] text-gray-500 mt-1">Generado el: {new Date().toLocaleDateString()} a las {new Date().toLocaleTimeString()}</p>
         </div>
 
-        <table className="w-full text-left border-collapse min-w-[1000px] print:min-w-0 table-fixed">
+        <table className="w-full text-left border-collapse min-w-[1100px] print:min-w-0 table-fixed">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
-              <th className="w-[10%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cédula</th>
-              <th className="w-[18%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Nombre</th>
-              <th className="w-[5%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border text-center">Edad</th>
-              <th className="w-[12%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Teléfono</th>
-              <th className="w-[12%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Especialidad</th>
-              <th className="w-[10%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Cirugía</th>
-              <th className="w-[16%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Diagnóstico</th>
-              <th className="w-[17%] px-2 py-3 text-xs font-bold text-gray-600 uppercase tracking-wider border">Observaciones</th>
+              <th className="w-[8%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Cédula</th>
+              <th className="w-[15%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Nombre</th>
+              <th className="w-[5%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border text-center">Edad</th>
+              <th className="w-[10%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Carnet</th>
+              <th className="w-[12%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Teléfono</th>
+              <th className="w-[12%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Especialidad</th>
+              <th className="w-[10%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Cirugía</th>
+              <th className="w-[14%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Diagnóstico</th>
+              <th className="w-[14%] px-1 py-2 text-[9px] font-bold text-gray-600 uppercase border">Observaciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {pacientesOrdenados.map((p) => (
               <tr key={p.id} className="hover:bg-gray-50/50 print:hover:bg-transparent align-top">
-                <td className="px-2 py-2.5 text-xs text-gray-900 font-medium border break-words">{p.cedula}</td>
-                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.nombre}</td>
-                <td className="px-2 py-2.5 text-xs text-gray-700 border text-center">{p.edad}</td>
-                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.telefono}</td>
-                <td className="px-2 py-2.5 text-xs text-gray-700 border break-words whitespace-normal">{p.especialidad}</td>
-                <td className="px-2 py-2.5 text-xs text-gray-700 border">
+                <td className="px-1 py-1.5 text-[9px] text-gray-900 font-medium border break-words">{p.cedula}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border break-words whitespace-normal">{p.nombre}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border text-center">{p.edad}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border break-words whitespace-normal">{p.carnetCantv || '-'}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border break-words whitespace-normal">{p.telefono}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border break-words whitespace-normal">{p.especialidad}</td>
+                <td className="px-1 py-1.5 text-[9px] text-gray-700 border">
                   <span className={
                     p.cirugiaPendiente === 'Sí' ? 'text-red-600 font-bold' : 
                     p.cirugiaPendiente === 'En evaluación' ? 'text-yellow-600 font-bold' : 
@@ -98,17 +101,17 @@ export default function VistaImpresion({ pacientes = [] }) {
                     {p.cirugiaPendiente}
                   </span>
                 </td>
-                <td className="px-2 py-2.5 text-xs text-gray-600 border break-words whitespace-normal">
+                <td className="px-1 py-1.5 text-[9px] text-gray-600 border break-words whitespace-normal">
                   {p.diagnostico || '-'}
                 </td>
-                <td className="px-2 py-2.5 text-xs text-gray-600 border break-words whitespace-normal">
+                <td className="px-1 py-1.5 text-[9px] text-gray-600 border break-words whitespace-normal">
                   {p.observaciones || '-'}
                 </td>
               </tr>
             ))}
             {pacientesOrdenados.length === 0 && (
               <tr>
-                <td colSpan="8" className="px-3 py-8 text-center text-gray-400 text-sm">
+                <td colSpan="9" className="px-3 py-8 text-center text-gray-400 text-sm">
                   No hay registros para mostrar.
                 </td>
               </tr>
@@ -116,9 +119,9 @@ export default function VistaImpresion({ pacientes = [] }) {
           </tbody>
         </table>
         
-        <div className="mt-6 hidden print:flex items-center justify-between text-[10px] text-gray-400">
+        <div className="mt-4 hidden print:flex items-center justify-between text-[8px] text-gray-400">
           <p>Total de registros: {pacientesOrdenados.length}</p>
-          <p>Infoget © {new Date().getFullYear()}</p>
+          <p>Infoget © {new Date().getFullYear()} - Reporte de Beneficiarios</p>
         </div>
       </div>
     </div>
